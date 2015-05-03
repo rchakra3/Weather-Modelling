@@ -20,7 +20,7 @@ function GetJSON(data){
 	jsonReq.send(null);
 	return jsonReq.responseText;          
 }
-
+//Need to add the API key
 function getTemperature(stateName){
 
 	var json_obj = JSON.parse(GetJSON("http://api.openweathermap.org/data/2.5/weather?q=" + stateMap[stateName]));
