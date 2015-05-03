@@ -56,5 +56,15 @@ app.use(function(err, req, res, next) {
     });
 });
 
+/**********************CUSTOM CODE*********************************/
+
+var WeatherModule=require('node_modules/openweathermap-plugin/WeatherFunctions.js')
+
+WeatherModule.createStateDictionary();
+
+var temp=WeatherModule.getTemperature('Alaska');
+
+console.log('temp:'+temp);
+
 
 module.exports = app;
