@@ -58,7 +58,9 @@ app.use(function(err, req, res, next) {
 
 /**********************CUSTOM CODE*********************************/
 
-var WeatherModule=require('node_modules/openweathermap-plugin/WeatherFunctions.js')
+var WeatherFunctions=require('./node_modules/openweathermap-plugin/WeatherFunctions.js')
+
+var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
 
