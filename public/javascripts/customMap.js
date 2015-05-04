@@ -9,6 +9,7 @@ $(document).ready(function() {
 			  },
 
 			colorChange: function(event,data){
+				console.log('Changed color of:'+data.name+' to:'+event.originalEvent.color);
 				 $('#'+data.name).css('fill',''+event.originalEvent.color);
 			}
 
