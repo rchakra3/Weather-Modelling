@@ -81,11 +81,15 @@
     
     
     // Events
+    'colorChange': null,
+
     'click': null,
     
     'mouseover': null,
     
     'mouseout': null,
+
+    'colorChangeState': {},
     
     'clickState': {},
     
@@ -267,18 +271,21 @@
         this.stateHitAreas[state] = R.path(paths[state]).attr({fill: "#000",
       "stroke-width": 0, "opacity" : 0.0, 'cursor': 'pointer'});
         this.stateHitAreas[state].node.dataState = state;
+        this.stateShapes[state].node.setAttribute("id", state);
       }
       
       // Bind events
       this._onClickProxy = $.proxy(this, '_onClick');
       this._onMouseOverProxy = $.proxy(this, '_onMouseOver'),
       this._onMouseOutProxy = $.proxy(this, '_onMouseOut');
+      this._onColorChangeProxy = $.proxy(this, '_onColorChange');
         
       for(var state in this.stateHitAreas) {
         this.stateHitAreas[state].toFront();
         $(this.stateHitAreas[state].node).bind('mouseout', this._onMouseOutProxy);
         $(this.stateHitAreas[state].node).bind('click', this._onClickProxy);
         $(this.stateHitAreas[state].node).bind('mouseover', this._onMouseOverProxy);
+        $(this.stateHitAreas[state].node).bind('colorChange', this._onColorChangeProxy);
         
       }
       
@@ -378,6 +385,7 @@
         $(this.labelHitAreas[state].node).bind('mouseout', this._onMouseOutProxy);
         $(this.labelHitAreas[state].node).bind('click', this._onClickProxy);
         $(this.labelHitAreas[state].node).bind('mouseover', this._onMouseOverProxy);
+        $(this.stateHitAreas[state].node).bind('colorChange', this._onColorChangeProxy);
       }
     },
     
@@ -477,6 +485,17 @@
       
       return !this._triggerEvent('click', event, stateData);
     },
+
+    _onColorChange: function(event){
+      var stateData = this._getStateFromEvent(event);
+
+      // Stop if no state was found
+      if(!stateData.hitArea) {
+        return;
+      }
+      
+      return !this._triggerEvent('colorChange', event, stateData);
+    },
     
     
     
@@ -545,7 +564,6 @@
     _triggerEvent: function(type, event, stateData) {
       var name = stateData.name;
       var defaultPrevented = false;
-      
       // State specific
       var sEvent = $.Event('usmap'+type+name);
       sEvent.originalEvent = event;
@@ -601,6 +619,8 @@
       @param string state - The two letter state abbr
      */
     trigger: function(state, type, event) {
+      /*console.log(event)
+      console.log(type);*/
       type = type.replace('usmap', ''); // remove the usmap if they added it
       state = state.toUpperCase(); // ensure state is uppercase to match
       

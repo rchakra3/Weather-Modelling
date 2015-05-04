@@ -64,14 +64,44 @@ var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
 
-var temp=WeatherModule.getTemperature('California');
-
-console.log('temp:'+temp);
-
 var server = app.listen(3000,function(){
     var port=server.address().port;
     console.log('App listening at port %s',port);
 });
+
+var sio=require('socket.io').listen(server);
+
+var tempColorRange=parseInt('E50009' , 16)-parseInt('96D7E9' , 16);
+
+function getColorFromTemp(temp){
+    //Celsius
+    var minTemp= -62 ;
+    var maxTemp=57;
+    var normalizedTemp=((temp-minTemp)/(maxTemp-minTemp));
+    var hexColorRange=(parseInt('E50009' , 16)-parseInt('96D7E9' , 16)).toString(16);
+    var colorDiff=Math.floor(normalizedTemp*(parseInt(hexColorRange,16)));
+    var color=colorDiff+parseInt('96D7E9' , 16);
+    return '#'+color.toString(16);
+}
+
+sio.on('connection',function(socket){
+
+    console.log('New COnnectrion')
+
+    miInterval=setInterval(function(){
+        //var temp=WeatherModule.getTemperature('California');
+        //console.log('temp is:'+temp);
+        var temp=40;
+        var color=getColorFromTemp(temp);
+        socket.emit('updateColor',{state:'CA',color:color});
+        //socket.emit('updateColor',{state:'CA',color:'#c73f7f'});
+        console.log('emitted color:'+color)
+    },3000)
+
+})
+
+
+
 
 
 module.exports = app;

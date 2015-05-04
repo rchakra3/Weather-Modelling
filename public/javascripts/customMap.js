@@ -8,8 +8,12 @@ $(document).ready(function() {
 			      .text('You clicked: '+data.name);
 			  },
 
-    	});
-    $('#map').usmap('trigger', 'MI', 'click')
+			colorChange: function(event,data){
+				 $('#'+data.name).css('fill',''+event.originalEvent.color);
+			}
 
- });
+    	});
+ }
+
+ );
 

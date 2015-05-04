@@ -529,6 +529,7 @@
      * return boolean - true to continue to default action, false to prevent the default action
      */
     _triggerEvent: function(type, event, stateData) {
+      console.log('testing')
       var name = stateData.name;
       var defaultPrevented = false;
       
@@ -537,6 +538,7 @@
       sEvent.originalEvent = event;
       
       // Do the one in options first
+      console.log('testinginteingtingitngintdngfdjngjdfbgjdfgjdnfgdf');
       if(this.options[type+'State'][name]) {
         defaultPrevented = this.options[type+'State'][name](sEvent, stateData) === false;
       }
@@ -587,6 +589,7 @@
       @param string state - The two letter state abbr
      */
     trigger: function(state, type, event) {
+      console.log('testing')
       type = type.replace('usmap', ''); // remove the usmap if they added it
       state = state.toUpperCase(); // ensure state is uppercase to match
       
