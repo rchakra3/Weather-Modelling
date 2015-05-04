@@ -171,7 +171,6 @@
       // Keep track of all the states
       this.stateHitAreas = {}; // transparent for the hit area
       this.stateShapes = {}; // for the visual shape
-      this.bboxesForStateShapes = {}; // bounding boxes for the shapes scaled to the map
       this.topShape = null;
       
       // create all the states
@@ -267,6 +266,7 @@
         this.stateHitAreas[state] = R.path(paths[state]).attr({fill: "#000",
       "stroke-width": 0, "opacity" : 0.0, 'cursor': 'pointer'});
         this.stateHitAreas[state].node.dataState = state;
+        this.stateShapes[state].node.setAttribute("id", state);
       }
       
       // Bind events
@@ -280,18 +280,6 @@
         $(this.stateHitAreas[state].node).bind('click', this._onClickProxy);
         $(this.stateHitAreas[state].node).bind('mouseover', this._onMouseOverProxy);
         
-      }
-      
-      
-      // Create the bounding boxes for the shapes
-      for(var state in this.stateShapes) {
-        var bbox = this.stateShapes[state].getBBox();
-        for(var v in bbox) {
-          if( $.isNumeric(bbox[v]) ) {
-            bbox[v] = bbox[v] * this.scale;
-          }
-        }
-        this.bboxesForStateShapes[state] = bbox;
       }
     },
     
@@ -399,10 +387,9 @@
     _getState: function(stateName) {
       var stateShape = this.stateShapes[stateName];
       var stateHitArea = this.stateHitAreas[stateName];
-      var labelBacking = stateName in this.labelShapes ? this.labelShapes[stateName] : null;
-      var labelText = stateName in this.labelTexts ? this.labelTexts[stateName] : null;
-      var labelHitArea = stateName in this.labelHitAreas ? this.labelHitAreas[stateName] : null
-      var bbox = this.bboxesForStateShapes[stateName];
+      var labelBacking = this.labelShapes[stateName];
+      var labelText = this.labelTexts[stateName];
+      var labelHitArea = this.labelHitAreas[stateName]
       
       return {
         shape: stateShape, 
@@ -410,8 +397,7 @@
         name: stateName, 
         labelBacking: labelBacking, 
         labelText: labelText, 
-        labelHitArea: labelHitArea,
-        bbox: bbox
+        labelHitArea: labelHitArea
       };
     },
     
@@ -618,36 +604,12 @@
         shape.insertAfter(this.topShape);
       }
       this.topShape = shape;
-    },
-    
-    /**
-     * Get all the shapes used for each state for do custom bindings
-     */
-    getStateShapes: function() {
-      if(this._getStateShapes) {
-        return this._getStateShapes;
-      }
-      
-      this._getStateShapes = {};
-      
-      for(var stateName in this.stateShapes) {
-        this._getStateShapes[stateName] = {
-          shape: this.stateShapes[stateName],
-          hitArea: this.stateHitAreas[stateName],
-          labelBacking: stateName in this.labelShapes ? this.labelShapes[stateName] : null,
-          labelText: stateName in this.labelTexts ? this.labelTexts[stateName] : null,
-          labelHitArea: stateName in this.labelHitAreas ? this.labelHitAreas[stateName] : null,
-          name: stateName, 
-        };
-      }
-      
-      return this._getStateShapes;
-    },
+    }
   };
   
   
   // Getters
-  var getters = ['getStateShapes'];
+  var getters = [];
   
   
   // Create the plugin
