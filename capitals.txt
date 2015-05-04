@@ -1,50 +1,50 @@
-Alabama,Montgomery
-Alaska,Juneau
-Arizona,Phoenix
-Arkansas,Little Rock
-California,Sacramento
-Colorado,Denver
-Connecticut,Hartford
-Delaware,Dover
-Florida,Tallahassee
-Georgia,Atlanta
-Hawaii,Honolulu
-Idaho,Boise
-Illinois,Springfield
-Indiana,Indianapolis
-Iowa,Des Moines
-Kansas,Topeka
-Kentucky,Frankfort
-Louisiana,Baton Rouge
-Maine,Augusta
-Maryland,Annapolis
-Massachusetts,Boston
-Michigan,Lansing
-Minnesota,St. Paul
-Mississippi,Jackson
-Missouri,Jefferson City
-Montana,Helena
-Nebraska,Lincoln
-Nevada,Carson City
-New Hampshire,Concord
-New Jersey,Trenton
-New Mexico,Santa Fe
-New York,Albany
-North Carolina,Raleigh
-North Dakota,Bismarck
-Ohio,Columbus
-Oklahoma,Oklahoma City
-Oregon,Salem
-Pennsylvania,Harrisburg
-Rhode Island,Providence
-South Carolina,Columbia
-South Dakota,Pierre
-Tennessee,Nashville
-Texas,Austin
-Utah,Salt Lake City
-Vermont,Montpelier
-Virginia,Richmond
-Washington,Olympia
-West Virginia,Charleston
-Wisconsin,Madison
-Wyoming,Cheyenne
+Alabama,Montgomery,KMXF
+Alaska,Juneau,PAJN
+Arizona,Phoenix,KPHX
+Arkansas,Little Rock,KLIT
+California,Sacramento,KSAC
+Colorado,Denver,KAPA
+Connecticut,Hartford,KHFD
+Delaware,Dover,KDOV
+Florida,Tallahassee,KTLH
+Georgia,Atlanta,KPDK
+Hawaii,Honolulu,PHNL
+Idaho,Boise,KBOI
+Illinois,Springfield,KCEF
+Indiana,Indianapolis,KIND
+Iowa,Des Moines,KDSM
+Kansas,Topeka,KTOP
+Kentucky,Frankfort,KFFT
+Louisiana,Baton Rouge,KBTR
+Maine,Augusta,KAUG
+Maryland,Annapolis,KNAK
+Massachusetts,Boston,KBOS
+Michigan,Lansing,KLAN
+Minnesota,St. Paul,KSTP
+Mississippi,Jackson,KHKS
+Missouri,Jefferson City,KJEF
+Montana,Helena,KHLN
+Nebraska,Lincoln,KLNK
+Nevada,Carson City,KTOP
+New Hampshire,Concord,KCON
+New Jersey,Trenton,KTTN
+New Mexico,Santa Fe,KSAF
+New York,Albany,KALB
+North Carolina,Raleigh,KRDU
+North Dakota,Bismarck,KBIS
+Ohio,Columbus,KOSU
+Oklahoma,Oklahoma City,KPWA
+Oregon,Salem,KSLE
+Pennsylvania,Harrisburg,KMDT
+Rhode Island,Providence,KPVD
+South Carolina,Columbia,KCUB
+South Dakota,Pierre,KPIR
+Tennessee,Nashville,KBNA
+Texas,Austin,KATT
+Utah,Salt Lake City,KSLC
+Vermont,Montpelier,KMPV
+Virginia,Richmond,KRIC
+Washington,Olympia,KOLM
+West Virginia,Charleston,KCRW
+Wisconsin,Madison,KMSN
+Wyoming,Cheyenne,KFEW

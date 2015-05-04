@@ -58,11 +58,13 @@ app.use(function(err, req, res, next) {
 
 /**********************CUSTOM CODE*********************************/
 
-var WeatherFunctions=require('openweathermap-plugin')
+var WeatherFunctions=require('openweathermap-plugin');
 
 var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
+WeatherModule.getTestData();
+console.log("Finished creatng files");
 
 var server = app.listen(3000,function(){
     var port=server.address().port;
