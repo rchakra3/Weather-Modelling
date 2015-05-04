@@ -84,19 +84,43 @@ function getColorFromTemp(temp){
     return '#'+color.toString(16);
 }
 
+var fs=require('fs');
+
+function getStateAbbrsList (){
+        var array = fs.readFileSync('./stateAbbr').toString().split("\n");
+        var abbrs={};
+        for(i in array) {
+            var splitArray = array[i].split(",");
+            abbrs[splitArray[0]]=splitArray[1];
+        }
+        return abbrs;
+};
+
+var abbrList=getStateAbbrsList();
+
 sio.on('connection',function(socket){
 
     console.log('New COnnectrion')
 
+     var stateList=WeatherModule.getTemperatureForAll();
+
+        console.log(stateList);
+
+        stateList.forEach(function(state){
+            var temp=state.temp;
+            var color=getColorFromTemp(temp);
+            var stateName=state.state;
+
+            var emitObject={state:abbrList[stateName],color:color};
+
+            socket.emit('updateColor',emitObject);
+            //socket.emit('updateColor',{state:'CA',color:'#c73f7f'});
+            console.log('state:'+emitObject.state+' color:'+emitObject.color);
+        });
+
     miInterval=setInterval(function(){
-        //var temp=WeatherModule.getTemperature('California');
-        //console.log('temp is:'+temp);
-        var temp=40;
-        var color=getColorFromTemp(temp);
-        socket.emit('updateColor',{state:'CA',color:color});
-        //socket.emit('updateColor',{state:'CA',color:'#c73f7f'});
-        console.log('emitted color:'+color)
-    },3000)
+       
+    },1000);
 
 })
 
