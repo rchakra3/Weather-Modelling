@@ -102,7 +102,10 @@ sio.on('connection',function(socket){
 
     console.log('New COnnectrion')
 
-     var stateList=WeatherModule.getTemperatureForAll();
+
+    miInterval=setInterval(function(){
+       
+       var stateList=WeatherModule.getTemperatureForAll();
 
         console.log(stateList);
 
@@ -118,9 +121,8 @@ sio.on('connection',function(socket){
             console.log('state:'+emitObject.state+' color:'+emitObject.color);
         });
 
-    miInterval=setInterval(function(){
-       
-    },1000);
+
+    },60000);
 
 })
 

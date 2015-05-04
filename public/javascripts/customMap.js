@@ -14,6 +14,8 @@ $(document).ready(function() {
 			}
 
     	});
+    $('#ourForecastMap').usmap({});
+    $('#actualForecastMap').usmap({});
  }
 
  );
