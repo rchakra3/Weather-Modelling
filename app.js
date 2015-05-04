@@ -63,8 +63,8 @@ var WeatherFunctions=require('openweathermap-plugin');
 var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
-WeatherModule.getTestData();
-console.log("Finished creatng files");
+//WeatherModule.getTestData();
+//console.log("Finished creatng files");
 
 var server = app.listen(3000,function(){
     var port=server.address().port;
