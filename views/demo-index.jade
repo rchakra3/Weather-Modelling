@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  div(id="alert") Click alerts
+  div(id="map" style="width: 930px; height: 630px; border: solid 3px red;")
+  button(id="over-md") mouseover MD
+  button(id="out-md") mouseout MD
+  div(id="map2" style="width: 300px; height: 300px;")
+
+block scripts
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js')
+  script(src='/javascripts/lib/raphael.js')
+  script(src='/javascripts/usmap.js')
+  script(src='/javascripts/color.jquery.js')
+  script(src='/javascripts/demo.js')

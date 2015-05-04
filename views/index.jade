@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div(id="map" style="width: 100%; height: 800px;")
+  div(id="clicked-state")
+  
+
+block scripts
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js')
+  script(src='/javascripts/lib/raphael.js')
+  script(src='/javascripts/usmap.js')
+  script(src='/javascripts/customMap.js')
