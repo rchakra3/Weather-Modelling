@@ -64,7 +64,7 @@ var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
 
-var temp=WeatherModule.getTemperature('Alaska');
+var temp=WeatherModule.getTemperature('California');
 
 console.log('temp:'+temp);
 
