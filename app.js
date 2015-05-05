@@ -63,7 +63,7 @@ var WeatherFunctions=require('openweathermap-plugin');
 var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
-//WeatherModule.getHistoricDataForState();
+WeatherModule.getHistoricDataForState();
 //WeatherModule.getTestData();
 //console.log("Finished creatng files");
 
@@ -106,7 +106,7 @@ sio.on('connection',function(socket){
     console.log('New COnnectrion')
 
 
-    miInterval=setInterval(function(){
+  /*  miInterval=setInterval(function(){
        
        var stateList=WeatherModule.getTemperatureForAll();
 
@@ -126,6 +126,7 @@ sio.on('connection',function(socket){
 
 
     },60000);
+*/
 
 
 })
