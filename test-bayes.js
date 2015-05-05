@@ -7,10 +7,7 @@ WeatherModule.createStateDictionary();
 WeatherModule.getHistoricDataForState();
 
 
-function createObject(temperature,humidity,windSpeed){
 
-	return {temp:temperature,humidity:humidity,windSpeed:windSpeed};
-}
 
 function trainBayes(bayes){
 	var array = fs.readFileSync("./new.txt").toString().split("\n");

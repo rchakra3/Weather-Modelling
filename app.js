@@ -84,7 +84,13 @@ function currentUpdateFunction(){
 
        console.log('POLLING NOW')
        MapUpdater.sendUpdate(sio,WeatherModule,MapUpdater);
-}
+};
+
+var BayesianNets=require('./lib/BayesianNets.js');
+
+var BayesianNetObjectRain=new BayesianNets();
+
+BayesianNetObjectRain.generateAllNets(MapUpdater.returnAbbrsList());
 
 miInterval=setInterval(currentUpdateFunction,60000);
 
