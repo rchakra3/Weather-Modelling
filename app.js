@@ -74,71 +74,23 @@ var server = app.listen(3000,function(){
 
 var sio=require('socket.io').listen(server);
 
-//4 shades of blue,white,light yellow,yellow,orange,2 shades of red
-var tempColorRange=['#0033CC','#3F66D8','#66FFFF','#B2FFFF','#FFFFFF','#FFFFA6','#FFFF00','#FFA700','#FF7600','FF0004'];
+var currentWeatherUpdates=require('./lib/currentWeatherUpdates.js');
 
-function getColorFromTemp(index){
-   
-   return tempColorRange[parseInt(index)];
-}
+var MapUpdater=new currentWeatherUpdates();
 
 var fs=require('fs');
 
-function getStateAbbrsList (){
-        var array = fs.readFileSync('./stateAbbr').toString().split("\n");
-        var abbrs={};
-        for(i in array) {
-            var splitArray = array[i].split(",");
-            abbrs[splitArray[0]]=splitArray[1];
-        }
-        return abbrs;
-};
-
-function constructCurrentConditionsObject(stateName,color,temp,humidity,wind){
-
-    var obj={};
-    obj.state=abbrList[stateName];
-    obj.color=color;
-    obj.temp=temp;
-    obj.humidity=humidity;
-    obj.wind=wind;
-
-    return obj;
-}
-
-var abbrList=getStateAbbrsList();
-
-miInterval=setInterval(function(){
+function currentUpdateFunction(){
 
        console.log('POLLING NOW')
-       
-       var stateList=WeatherModule.getAttributesForAll();
-        //console.log(stateList);
+       MapUpdater.sendUpdate(sio,WeatherModule,MapUpdater);
+}
 
-        stateList.forEach(function(state){
-            
-            var humidity=state.humidity;
-            var wind=state.wind;
-            var numericTemp=state.temp;
-            var tempIndex=WeatherModule.normalizeTemperature(numericTemp);
-
-        stateList.forEach(function(state){
-            var temp=state.temp;
-            var color=getColorFromTemp(temp);
-            var stateName=state.state;
-            var color=getColorFromTemp(tempIndex);
-            
-
-            var emitObject=constructCurrentConditionsObject(stateName,color,numericTemp,humidity,wind);
-
-            sio.sockets.emit('updateCurrent',emitObject);
-            console.log(emitObject);
-        });
-},60000);
+miInterval=setInterval(currentUpdateFunction,60000);
 
 sio.on('connection',function(socket){
-    console.log('New COnnectrion')
-})
+    console.log('New Connectrion')
+});
 
 
 
