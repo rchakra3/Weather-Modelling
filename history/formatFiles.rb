@@ -10,7 +10,7 @@ end
 
 for i in 0..49 do
 	fileCnt = 0
-	for j in 1..17 do
+	for j in 1..13 do
 		city = "city"+ "#{i}"
 		files = Dir[dirPath+ city + "_Month" + "#{j}" + ".txt"]
 		lineCnt = 0
