@@ -63,17 +63,16 @@ var server = app.listen(3000,function(){
     console.log('App listening at port %s',port);
 });
 
+var sio=require('socket.io').listen(server);
+
 var WeatherFunctions=require('openweathermap-plugin');
 
 var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
-WeatherModule.getHistoricDataForState();
+//WeatherModule.getHistoricDataForState();
 //WeatherModule.getTestData();
 //console.log("Finished creatng files");
-
-
-var sio=require('socket.io').listen(server);
 
 var currentWeatherUpdates=require('./lib/currentWeatherUpdates.js');
 
@@ -174,11 +173,15 @@ function sendAllUpdate(){
 }
 
 
-sendAllUpdate();
-miInterval=setInterval(sendAllUpdate,60000);
+var flag=true;
 
 sio.on('connection',function(socket){
-    console.log('New Connectrion')
+    console.log('New Connectrion');
+    if(flag){
+        flag=false;
+        sendAllUpdate();
+        miInterval=setInterval(sendAllUpdate,60000);
+    }
 });
 
 
