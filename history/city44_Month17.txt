@@ -1,0 +1,6 @@
+
+EDT,Max TemperatureF,Mean TemperatureF,Min TemperatureF,Max Dew PointF,MeanDew PointF,Min DewpointF,Max Humidity, Mean Humidity, Min Humidity, Max Sea Level PressureIn, Mean Sea Level PressureIn, Min Sea Level PressureIn, Max VisibilityMiles, Mean VisibilityMiles, Min VisibilityMiles, Max Wind SpeedMPH, Mean Wind SpeedMPH, Max Gust SpeedMPH,PrecipitationIn, CloudCover, Events, WindDirDegrees<br />
+2015-5-1,59,50,41,41,38,37,89,68,47,30.03,30.00,29.98,10,10,10,10,3,14,0.00,7,,167<br />
+2015-5-2,70,53,35,42,36,32,100,63,25,30.04,30.00,29.93,10,7,0,13,3,16,0.00,2,Fog,303<br />
+2015-5-3,72,54,36,40,35,31,85,54,22,30.13,30.06,30.01,10,10,10,17,2,25,T,3,,286<br />
+2015-5-4,79,60,41,43,37,33,89,45,19,30.20,30.12,30.04,10,10,10,18,3,29,0.00,2,Rain,234<br />
