@@ -80,19 +80,97 @@ var MapUpdater=new currentWeatherUpdates();
 
 var fs=require('fs');
 
-function currentUpdateFunction(){
-
-       console.log('POLLING NOW')
-       MapUpdater.sendUpdate(sio,WeatherModule,MapUpdater);
-};
-
 var BayesianNets=require('./lib/BayesianNets.js');
 
 var BayesianNetObjectRain=new BayesianNets();
 
 BayesianNetObjectRain.generateAllNets(MapUpdater.returnAbbrsList());
 
-miInterval=setInterval(currentUpdateFunction,60000);
+var bayesNetsForRain=BayesianNetObjectRain.getAllNets();
+
+function currentUpdateFunction(){
+
+       console.log('POLLING NOW')
+       var currentStateWeather=MapUpdater.sendUpdate(sio,WeatherModule,MapUpdater);
+       return currentStateWeather;
+};
+
+function todayRainForecastUpdate(currentStateWeather,abbrList){
+      console.log('Updating todays rain forecast');
+
+      var selfPredictRainCount=0;
+      var selfPredictNoRainCount=0;
+      var actualPredictRainCount=0;
+      var actualPredictNoRainCount=0;
+      var correctCount=0;
+
+      currentStateWeather.forEach(function(state){
+            
+            var humidity=WeatherModule.normalizeHumidity(state.humidity);
+            var wind=WeatherModule.normalizeWind(state.wind);
+            var temp=WeatherModule.normalizeTemperature(state.temp);
+            var stateName=state.state;
+            console.log('State name:'+stateName);
+            //console.log(bayesNetsForRain);
+            var lookupObject=BayesianNetObjectRain.createObject(temp,humidity,wind);
+            var scoreObject=bayesNetsForRain[stateName].score(lookupObject);
+
+            var probRain=parseInt(scoreObject['1']);
+            var probNoRain=parseInt(scoreObject['0']);
+            var finalSelfRainPrediction=false;
+            if(probRain>0.5){
+                finalSelfRainPrediction=true;
+                selfPredictRainCount++;
+            }
+            else if(probNoRain>0.5){
+                finalSelfRainPrediction=false;
+                selfPredictNoRainCount++;
+            }
+            else if(probRain>probNoRain){
+                finalSelfRainPrediction=true;
+                selfPredictRainCount++;
+            }
+            else{
+                finalSelfRainPrediction=false;
+                selfPredictNoRainCount++;
+            }
+            var rainUpdateObj={state:abbrList[stateName],rain:finalSelfRainPrediction};
+            sio.sockets.emit('updateTodaySelfRainForecast',rainUpdateObj)
+
+
+            /****************To get actual Forecast**********************/
+            var actualForecast=WeatherModule.getCurrentRainForecast(state);
+            if(actualForecast==true){
+                actualPredictRainCount++;
+                if(finalSelfRainPrediction==true){
+                    correctCount++;
+                }
+            }
+            else{
+                actualPredictNoRainCount++;
+                if(finalSelfRainPrediction==false){
+                    correctCount++;
+                }
+            }
+
+            rainUpdateObj={state:abbrList[stateName],rain:actualForecast};
+            sio.sockets.emit('updateTodayActualRainForecast',rainUpdateObj);
+            console.log('Score for:'+stateName);
+            console.log(scoreObject);
+        });
+    console.log('Accuracy:'+(correctCount)/(50))
+
+
+}
+
+function sendAllUpdate(){
+    var currentStateWeather=currentUpdateFunction();
+    todayRainForecastUpdate(currentStateWeather,MapUpdater.returnAbbrsList());
+}
+
+
+sendAllUpdate();
+miInterval=setInterval(sendAllUpdate,60000);
 
 sio.on('connection',function(socket){
     console.log('New Connectrion')
