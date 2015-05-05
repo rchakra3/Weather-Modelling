@@ -81,7 +81,7 @@
     
     
     // Events
-    'colorChange': null,
+    'currentMapUpdate': null,
 
     'click': null,
     
@@ -89,7 +89,7 @@
     
     'mouseout': null,
 
-    'colorChangeState': {},
+    'currentMapUpdateState': {},
     
     'clickState': {},
     
@@ -285,7 +285,7 @@
         $(this.stateHitAreas[state].node).bind('mouseout', this._onMouseOutProxy);
         $(this.stateHitAreas[state].node).bind('click', this._onClickProxy);
         $(this.stateHitAreas[state].node).bind('mouseover', this._onMouseOverProxy);
-        $(this.stateHitAreas[state].node).bind('colorChange', this._onColorChangeProxy);
+        $(this.stateHitAreas[state].node).bind('currentMapUpdate', this._onColorChangeProxy);
         
       }
       
@@ -385,7 +385,7 @@
         $(this.labelHitAreas[state].node).bind('mouseout', this._onMouseOutProxy);
         $(this.labelHitAreas[state].node).bind('click', this._onClickProxy);
         $(this.labelHitAreas[state].node).bind('mouseover', this._onMouseOverProxy);
-        $(this.stateHitAreas[state].node).bind('colorChange', this._onColorChangeProxy);
+        $(this.stateHitAreas[state].node).bind('currentMapUpdate', this._onColorChangeProxy);
       }
     },
     
@@ -494,7 +494,7 @@
         return;
       }
       
-      return !this._triggerEvent('colorChange', event, stateData);
+      return !this._triggerEvent('currentMapUpdate', event, stateData);
     },
     
     

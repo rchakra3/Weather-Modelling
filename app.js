@@ -63,7 +63,7 @@ var WeatherFunctions=require('openweathermap-plugin');
 var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
-//WeatherModule.getHistoricDataForState();
+WeatherModule.getHistoricDataForState();
 //WeatherModule.getTestData();
 //console.log("Finished creatng files");
 
@@ -74,17 +74,12 @@ var server = app.listen(3000,function(){
 
 var sio=require('socket.io').listen(server);
 
-var tempColorRange=parseInt('E50009' , 16)-parseInt('96D7E9' , 16);
+//4 shades of blue,white,light yellow,yellow,orange,2 shades of red
+var tempColorRange=['#0033CC','#3F66D8','#66FFFF','#B2FFFF','#FFFFFF','#FFFFA6','#FFFF00','#FFA700','#FF7600','FF0004'];
 
-function getColorFromTemp(temp){
-    //Celsius
-    var minTemp= -62 ;
-    var maxTemp=57;
-    var normalizedTemp=((temp-minTemp)/(maxTemp-minTemp));
-    var hexColorRange=(parseInt('E50009' , 16)-parseInt('96D7E9' , 16)).toString(16);
-    var colorDiff=Math.floor(normalizedTemp*(parseInt(hexColorRange,16)));
-    var color=colorDiff+parseInt('96D7E9' , 16);
-    return '#'+color.toString(16);
+function getColorFromTemp(index){
+   
+   return tempColorRange[parseInt(index)];
 }
 
 var fs=require('fs');
@@ -99,35 +94,50 @@ function getStateAbbrsList (){
         return abbrs;
 };
 
+function constructCurrentConditionsObject(stateName,color,temp,humidity,wind){
+
+    var obj={};
+    obj.state=abbrList[stateName];
+    obj.color=color;
+    obj.temp=temp;
+    obj.humidity=humidity;
+    obj.wind=wind;
+
+    return obj;
+}
+
 var abbrList=getStateAbbrsList();
 
-sio.on('connection',function(socket){
+miInterval=setInterval(function(){
 
-    console.log('New COnnectrion')
-
-
-    miInterval=setInterval(function(){
+       console.log('POLLING NOW')
        
-       var stateList=WeatherModule.getTemperatureForAll();
+       var stateList=WeatherModule.getAttributesForAll();
+        //console.log(stateList);
 
-        console.log(stateList);
+        stateList.forEach(function(state){
+            
+            var humidity=state.humidity;
+            var wind=state.wind;
+            var numericTemp=state.temp;
+            var tempIndex=WeatherModule.normalizeTemperature(numericTemp);
 
         stateList.forEach(function(state){
             var temp=state.temp;
             var color=getColorFromTemp(temp);
             var stateName=state.state;
+            var color=getColorFromTemp(tempIndex);
+            
 
-            var emitObject={state:abbrList[stateName],color:color};
+            var emitObject=constructCurrentConditionsObject(stateName,color,numericTemp,humidity,wind);
 
-            socket.emit('updateColor',emitObject);
-            //socket.emit('updateColor',{state:'CA',color:'#c73f7f'});
-            console.log('state:'+emitObject.state+' color:'+emitObject.color);
+            sio.sockets.emit('updateCurrent',emitObject);
+            console.log(emitObject);
         });
+},60000);
 
-
-    },60000);
-
-
+sio.on('connection',function(socket){
+    console.log('New COnnectrion')
 })
 
 

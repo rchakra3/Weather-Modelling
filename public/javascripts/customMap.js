@@ -8,7 +8,7 @@ $(document).ready(function() {
 			      .text('You clicked: '+data.name);
 			  },
 
-			colorChange: function(event,data){
+			currentMapUpdate: function(event,data){
 				console.log('Changed color of:'+data.name+' to:'+event.originalEvent.color);
 				 $('#'+data.name).css('fill',''+event.originalEvent.color);
 			}
