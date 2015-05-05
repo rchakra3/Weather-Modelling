@@ -8,7 +8,7 @@ Dir[directory_name+"/*"].each do |file|
   FileUtils.rm_rf file, :noop => false, :verbose => true
 end
 
-for i in 1..50 do
+for i in 0..49 do
 	fileCnt = 0
 	for j in 1..17 do
 		city = "city"+ "#{i}"
