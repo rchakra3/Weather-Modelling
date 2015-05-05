@@ -7,11 +7,26 @@ block content
         a(data-toggle="tab" href="#CurrentWeather") Current Weather
       li
         a(data-toggle="tab" href="#Forecast") Forecast
-    
+
     div(class="tab-content")
       div(id="CurrentWeather" class="tab-pane fade in active")
         div(id="map" style="width: 100%; height: 800px;")
-        div(id="clicked-state")   
+        div(id="clicked-state")
+        //Modal and launcher code here
+        button(type="button", class="hidden", data-toggle="modal", id="openModal"
+          data-target="#myModal") Launch modal
+        div(class="modal fade", id="myModal", tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+          div(class="modal-dialog")
+            div(class="modal-content")
+              div(class="modal-header")
+                button(type="button", class="close", data-dismiss="modal", aria-label="Close")
+                  span(aria-hidden="true")&times;
+                h4(class="modal-title", id="myModalLabel") Modal title
+              div(class="modal-body") MODAL_BODY HERE
+
+              div(class="modal-footer")
+                button(type="button", class="btn btn-default", data-dismiss="modal") Close
+                button(type="button", class="btn btn-primary") Save changes
       div(id="Forecast" class="tab-pane fade")
         div(class="container-fluid")
           div(class="row")
@@ -29,8 +44,8 @@ block content
               div(id="actualForecastMap" style="width: 600px; height: 400px;")
 
 
-    
-  
+
+
 
 block scripts
   script(src='/socket.io/socket.io.js')
