@@ -58,6 +58,11 @@ app.use(function(err, req, res, next) {
 
 /**********************CUSTOM CODE*********************************/
 
+var server = app.listen(3000,function(){
+    var port=server.address().port;
+    console.log('App listening at port %s',port);
+});
+
 var WeatherFunctions=require('openweathermap-plugin');
 
 var WeatherModule=new WeatherFunctions();
@@ -67,10 +72,6 @@ WeatherModule.getHistoricDataForState();
 //WeatherModule.getTestData();
 //console.log("Finished creatng files");
 
-var server = app.listen(3000,function(){
-    var port=server.address().port;
-    console.log('App listening at port %s',port);
-});
 
 var sio=require('socket.io').listen(server);
 
@@ -139,7 +140,11 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
 
 
             /****************To get actual Forecast**********************/
-            var actualForecast=WeatherModule.getCurrentRainForecast(state);
+            var actualForecast=null;
+            while(actualForecast==null){
+                actualForecast=WeatherModule.getCurrentRainForecast(stateName);
+            }
+
             if(actualForecast==true){
                 actualPredictRainCount++;
                 if(finalSelfRainPrediction==true){
