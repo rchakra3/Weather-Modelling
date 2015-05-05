@@ -1,6 +1,6 @@
 require 'fileutils'
 retStr = ""
-dirPath = "/home/spuri/csc591_final/Weather-Modelling/history/"
+dirPath = "/home/vinay/weather-app/Weather-Modelling/history/"
 files = Dir[dirPath+"*.txt"]
 directory_name = dirPath + "mod"
 Dir.mkdir(directory_name) unless File.exists?(directory_name)
