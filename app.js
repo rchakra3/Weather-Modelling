@@ -139,7 +139,11 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
 
 
             /****************To get actual Forecast**********************/
-            var actualForecast=WeatherModule.getCurrentRainForecast(state);
+            var actualForecast=null;
+            while(actualForecast==null){
+                actualForecast=WeatherModule.getCurrentRainForecast(state);
+            }
+
             if(actualForecast==true){
                 actualPredictRainCount++;
                 if(finalSelfRainPrediction==true){
