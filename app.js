@@ -141,7 +141,7 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
             /****************To get actual Forecast**********************/
             var actualForecast=null;
             while(actualForecast==null){
-                actualForecast=WeatherModule.getCurrentRainForecast(state);
+                actualForecast=WeatherModule.getCurrentRainForecast(stateName);
             }
 
             if(actualForecast==true){
