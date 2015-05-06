@@ -6,10 +6,12 @@ block content
       li(class="active")
         a(data-toggle="tab" href="#CurrentWeather") Current Weather
       li
-        a(data-toggle="tab" href="#Forecast") Forecast
+        a(data-toggle="tab" href="#Forecast") Precipitation Forecast
 
     div(class="tab-content")
       div(id="CurrentWeather" class="tab-pane fade in active")
+        div(id="InitializationHeader1") 
+          h2(id="InitializationHeaderText1") Intializing...
         div(class="container-fluid")
           div(class="row")
             div(id="map" class="col-md-10" style="height: 800px;")
@@ -67,6 +69,8 @@ block content
               div(class="modal-footer")
                 button(type="button", class="btn btn-default", data-dismiss="modal") Close
       div(id="Forecast" class="tab-pane fade")
+        div(id="InitializationHeader2") 
+          h2(id="InitializationHeaderText2") Intializing...
         div(class="container-fluid")
           div(class="row")
             div(class="col-md-5")

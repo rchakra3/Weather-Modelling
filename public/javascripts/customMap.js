@@ -8,9 +8,10 @@ $(document).ready(function() {
     		click: function(event, data) {
 			    $('#clicked-state').text('You clicked: '+data.name);
 			    $('#openModal').click();
-			    $('#disp-temp').text($('#map-'+data.name).prop('data-temp')+'\xB0F');
-			    $('#disp-humidity').text($('#map-'+data.name).prop('data-humidity'));
-			    $('#disp-wind').text($('#map-'+data.name).prop('data-wind')+'mph');
+			    $('#myModalLabel').text('Current Weather-'+data.name)
+			    $('#disp-temp').text('Temperature:'+$('#map-'+data.name).prop('data-temp')+'\xB0F');
+			    $('#disp-humidity').text('Humidity: '+$('#map-'+data.name).prop('data-humidity'));
+			    $('#disp-wind').text('Wind speed: '+$('#map-'+data.name).prop('data-wind')+'mph');
 			  },
 
 			currentMapUpdate: function(event,data){
