@@ -1,4 +1,8 @@
-Date, Mean TemperatureF, Mean Humidity, Mean Wind SpeedMPH, Events0
+Date, Mean TemperatureF, Mean Humidity, Mean Wind SpeedMPH, Events
+2014-5-1,5,7,2,0
+2014-5-2,6,7,2,0
+2014-5-3,7,7,1,0
+2014-5-4,7,6,2,0
 2014-5-5,8,6,1,0
 2014-5-6,8,7,3,0
 2014-5-7,9,6,3,0
@@ -365,4 +369,3 @@ Date, Mean TemperatureF, Mean Humidity, Mean Wind SpeedMPH, Events0
 2015-5-3,8,7,3,1
 2015-5-4,8,9,2,1
 2015-5-5,7,10,1,0
-
