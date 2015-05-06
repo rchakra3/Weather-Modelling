@@ -10,7 +10,44 @@ block content
 
     div(class="tab-content")
       div(id="CurrentWeather" class="tab-pane fade in active")
-        div(id="map" style="width: 100%; height: 800px;")
+        div(class="container-fluid")
+          div(class="row")
+            div(id="map" class="col-md-10" style="height: 800px;")
+            div(class="col-md-2")
+              table(style="font-size:larger")
+                col(width="100px" style="padding: 50px;")
+                col(width="40px")
+                tr
+                  td <10&deg;F
+                  td(bgcolor='#0033CC')
+                tr
+                  td 10&deg;F - 20&deg;F
+                  td(bgcolor='#3F66D8')
+                tr
+                  td 20&deg;F - 30&deg;F
+                  td(bgcolor='#66FFFF')
+                tr
+                  td 30&deg;F - 40&deg;F
+                  td(bgcolor='#B2FFFF')
+                tr
+                  td 40&deg;F - 50&deg;F
+                  td(bgcolor='#FFFFFF')
+                tr
+                  td 50&deg;F - 60&deg;F
+                  td(bgcolor='#FFFFA6')
+                tr
+                  td 60&deg;F - 70&deg;F
+                  td(bgcolor='#FFFF00')
+                tr
+                  td 70&deg;F - 80&deg;F
+                  td(bgcolor='#FFA700')
+                tr
+                  td 80&deg;F - 90&deg;F
+                  td(bgcolor='#FF7600')
+                tr
+                  td >90&deg;F
+                  td(bgcolor='#FF0004')
+
         div(id="clicked-state")
         //Modal and launcher code here
         button(type="button", class="hidden", data-toggle="modal", id="openModal"
@@ -21,10 +58,11 @@ block content
               div(class="modal-header")
                 button(type="button", class="close", data-dismiss="modal", aria-label="Close")
                   span(aria-hidden="true")&times;
-                h4(class="modal-title", id="myModalLabel") Modal title
+                h4(class="modal-title", id="myModalLabel") Current Weather
               div(class="modal-body")
                 div(id="disp-temp")
                 div(id="disp-wind")
+                div(id="disp-humidity")
 
               div(class="modal-footer")
                 button(type="button", class="btn btn-default", data-dismiss="modal") Close

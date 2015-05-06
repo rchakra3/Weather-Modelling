@@ -115,9 +115,10 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
             var lookupObject=BayesianNetObjectRain.createObject(temp,humidity,wind);
             var scoreObject=bayesNetsForRain[stateName].score(lookupObject);
 
-            var probRain=parseInt(scoreObject['1']);
-            var probNoRain=parseInt(scoreObject['0']);
+            var probRain=parseFloat(scoreObject['1']);
+            var probNoRain=parseFloat(scoreObject['0']);
             var finalSelfRainPrediction=false;
+           // console.log('********PROB OF RAIN:'+probRain);
             if(probRain>0.5){
                 finalSelfRainPrediction=true;
                 selfPredictRainCount++;
