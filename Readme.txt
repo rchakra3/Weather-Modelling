@@ -50,6 +50,10 @@ In order to run the Twitter Sentiment Analyzer the following steps need to be do
 
 INTERPRETTING THE RESULTS:
 -------------------------------
+IMPORTANT NOTE:
+1. The weather API is used to query data for upto 50 states at a time and due to this it may take upto 25-30 secs to update.
+2. It is advisable to not refresh the browser in that duration.
+
 The page opens with two tab options with the Labels:
 1. “Current Weather”
 2. ““Forecast””
