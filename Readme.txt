@@ -53,7 +53,7 @@ INTERPRETTING THE RESULTS:
 The page opens with two tab options with the Labels:
 1. “LABEL 1”
 2. “LABEL 2”
-1. 1st Screen: “LABEL 1” (Default landing page)
+1. 1st Screen: “Current Weather” (Default landing page)
       This screen will be used to display data that has been queried from the weather api by the server in real time and pushed to client from the server.
       VIEW:
 	-> Map of USA opens uniformly colored grey.
@@ -64,7 +64,7 @@ The page opens with two tab options with the Labels:
 	-> Clicking on any state will open a Modal.
 	-> Modal will display: Temperature, Humidity and Wind Speed.
 	-> These values are returned from the API call and the data is stored on both Client Side as JSON objects and the server side.
-2. 2nd Screen: “LABEL 2”
+2. 2nd Screen: “Forecast”
      This screen will display “RAIN PREDICTIONS” for both the weather API and the predictions made by us using Bayes’ Classifiers.
       VIEW:
 	-> Opens with two maps of USA this time.
