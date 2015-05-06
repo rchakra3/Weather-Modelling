@@ -70,7 +70,7 @@ var WeatherFunctions=require('openweathermap-plugin');
 var WeatherModule=new WeatherFunctions();
 
 WeatherModule.createStateDictionary();
-//WeatherModule.getHistoricDataForState();
+//WeatherModule.getHistoricreateStateDictionarycDataForState();
 //WeatherModule.getTestData();
 //console.log("Finished creatng files");
 
@@ -173,6 +173,37 @@ function sendAllUpdate(){
     todayRainForecastUpdate(currentStateWeather,MapUpdater.returnAbbrsList());
 }
 
+function updateHistory(){
+    var fs = require("fs");         
+    var curDate=WeatherFunctions.getCurrentDate().split("-");
+    var oldFile="./history/mod/mod_city0.txt";
+    var historyArray=fs.readFileSync(oldFile).toString().split("\n");
+    var lastHistDate=(historyArray[historyArray.length - 1]).split(",")[0].split("-");
+    var dayDate, dataString, oldFile, newFile;
+    if(curDate[0] > lastHistDate[0] || curDate[1] > lastHistDate[1] || curDate[2] > lastHistDate[2]){
+        var linkData = "/blah";
+        var i=0;
+        for(var state in WeatherFunctions.stateMap){
+            dayData=WeatherFunctions.getJSON(linkData).split(",");
+            dataString[0]=dayData[0];
+            dataString[1]=dayData[2];
+            dataString[2]=dayData[8];
+            dataString[3]=dayData[17];
+            dataString[4]=dayData[21];
+            oldFile = "./history/mod/mod_city"+i+".txt";
+            newFile = "./history/final/city_"+i+".txt";
+            fs.appendFileSync(oldFile, dataString.join());
+            
+            dataString[0]=dataString[0];
+            dataString[1]=WeatherFunctions.normalizeTemperature(dataString[1]);
+            dataString[2]=WeatherFunctions.normalizeHumidity(dataString[2]);
+            dataString[3]=WeatherFunctions.normalizeWind(dataString[3]);
+            dataString[4]=(dataString[4] == " ") ? 1 : dataString[4];
+            fs.appendFileSync(newFile, dataString.join());
+            i++;
+        }
+    }
+}
 
 var flag=true;
 
@@ -183,10 +214,9 @@ sio.on('connection',function(socket){
         sendAllUpdate();
         miInterval=setInterval(sendAllUpdate,60000);
     }
+
+    updateHistory();
+    hisInterval=setInterval(updateHistory, 60000*60);
 });
-
-
-
-
 
 module.exports = app;
