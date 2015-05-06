@@ -160,8 +160,7 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
 
             rainUpdateObj={state:abbrList[stateName],rain:actualForecast};
             sio.sockets.emit('updateTodayActualRainForecast',rainUpdateObj);
-            //console.log('Score for:'+stateName);
-            //console.log(scoreObject);
+            
         });
     console.log('Accuracy:'+(correctCount)/(50))
 
@@ -176,14 +175,14 @@ function sendAllUpdate(){
 
 var flag=true;
 
-/*sio.on('connection',function(socket){
+sio.on('connection',function(socket){
     console.log('New Connectrion');
     if(flag){
         flag=false;
         sendAllUpdate();
         miInterval=setInterval(sendAllUpdate,60000);
     }
-});*/
+});
 
 
 
