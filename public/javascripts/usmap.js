@@ -86,6 +86,8 @@
 
 
     // Events
+
+    //custom Event
     'currentMapUpdate': null,
 
     'click': null,
@@ -93,7 +95,7 @@
     'mouseover': null,
 
     'mouseout': null,
-
+    //custom Event
     'currentMapUpdateState': {},
 
     'clickState': {},
@@ -277,7 +279,7 @@
         this.stateHitAreas[state] = R.path(paths[state]).attr({fill: "#000",
       "stroke-width": 0, "opacity" : 0.0, 'cursor': 'pointer'});
         this.stateHitAreas[state].node.dataState = state;
-        //var currMapId = this.element.attr('id');
+        //ID required to set the color of states on the map
         this.stateShapes[state].node.setAttribute("id", ''+currMapId+'-'+state);
       }
 
@@ -292,6 +294,7 @@
         $(this.stateHitAreas[state].node).bind('mouseout', this._onMouseOutProxy);
         $(this.stateHitAreas[state].node).bind('click', this._onClickProxy);
         $(this.stateHitAreas[state].node).bind('mouseover', this._onMouseOverProxy);
+        //custom Event
         $(this.stateHitAreas[state].node).bind('currentMapUpdate', this._onColorChangeProxy);
 
       }

@@ -4,7 +4,7 @@ $(document).ready(function() {
     		showLabels: true,
     		useAllLabels: true,
     		labelTextStyles: {color:'#000000'},
-
+    		//pop up a modal on the user clicking any state
     		click: function(event, data) {
 			    $('#clicked-state').text('You clicked: '+data.name);
 			    $('#openModal').click();
@@ -13,7 +13,7 @@ $(document).ready(function() {
 			    $('#disp-humidity').text('Humidity: '+$('#map-'+data.name).prop('data-humidity'));
 			    $('#disp-wind').text('Wind speed: '+$('#map-'+data.name).prop('data-wind')+'mph');
 			  },
-
+			 //update the current weather map
 			currentMapUpdate: function(event,data){
 				
 				$('#map-'+data.name).css('fill',''+event.originalEvent.color);
@@ -25,6 +25,7 @@ $(document).ready(function() {
 
     	});
     $('#ourForecastMap').usmap({
+    	//update our forecast map
     	currentMapUpdate: function(event,data){
 					    		var color='#E3E3FF';
 					    		if(event.originalEvent.rain==true)
@@ -35,6 +36,7 @@ $(document).ready(function() {
 		},
     });
     $('#actualForecastMap').usmap({
+    	//update official forecast map
     	currentMapUpdate: function(event,data){
 					    		var color='#E3E3FF';
 					    		if(event.originalEvent.rain==true)
