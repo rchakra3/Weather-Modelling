@@ -122,6 +122,9 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
       var actualPredictNoRainCount=0;
       var correctCount=0;
 
+      var truePositive=0;
+      var falsePositive=0;
+
       currentStateWeather.forEach(function(state){
             
             var humidity=WeatherModule.normalizeHumidity(state.humidity);
@@ -171,12 +174,16 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
                 actualPredictRainCount++;
                 if(finalSelfRainPrediction==true){
                     correctCount++;
+                    truePositive++;
                 }
             }
             else{
                 actualPredictNoRainCount++;
                 if(finalSelfRainPrediction==false){
                     correctCount++;
+                }
+                else{
+                    falsePositive++;
                 }
             }
 
@@ -185,8 +192,11 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
             
         });
     var acc=(correctCount)/(50);
+    var prec=(truePositive)/(truePositive+falsePositive);
+    acc=acc*100;
+    prec=prec*100;
     //console.log('Accuracy:'+acc)
-    sio.sockets.emit('accuracyUpdate',{accuracy:acc});
+    sio.sockets.emit('accuracyUpdate',{accuracy:acc,precision:prec});
 
 }
 
@@ -199,13 +209,13 @@ function sendAllUpdate(){
 
 var flag=true;
 //Only start polling after the first client connects- API upper Caps on number of requests!!
-sio.on('connection',function(socket){
+/*sio.on('connection',function(socket){
     console.log('New Connectrion');
     if(flag){
         flag=false;
         sendAllUpdate();
         miInterval=setInterval(sendAllUpdate,60000);
     }
-});
+});*/
 
 module.exports = app;

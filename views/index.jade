@@ -78,9 +78,22 @@ block content
           div(class="row")
             div(class="col-md-5")
               div(id="ourForecastMap" style="width: 600px; height: 400px;")
-            div(class="col-md-2")
+            div(class="col-md-2" style="text-align: center;font-size:larger;")
+              h4 Accuracy
+              div(class="well")
+                strong(id="accuracyText")
+              h4 Precision
+              div(class="well")
+                strong(id="precisionText")
             div(class="col-md-5")
               div(id="actualForecastMap" style="width: 600px; height: 400px;")
+  footer(class="footer text-center" style="padding-top: 50px;")
+    hr
+    p Data received from:
+    p
+      a(href="http://www.wunderground.com/") Weather Underground
+    p
+      a(href="http://openweathermap.org/") OpenWeatherMap
 
 
 
