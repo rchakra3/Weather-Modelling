@@ -51,8 +51,8 @@ In order to run the Twitter Sentiment Analyzer the following steps need to be do
 INTERPRETTING THE RESULTS:
 -------------------------------
 The page opens with two tab options with the Labels:
-1. “LABEL 1”
-2. “LABEL 2”
+1. “Current Weather”
+2. ““Forecast””
 1. 1st Screen: “Current Weather” (Default landing page)
       This screen will be used to display data that has been queried from the weather api by the server in real time and pushed to client from the server.
       VIEW:
