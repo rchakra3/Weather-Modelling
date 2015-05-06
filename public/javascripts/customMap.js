@@ -2,6 +2,8 @@ $(document).ready(function() {
     $('#map').usmap({
 
     		showLabels: true,
+    		useAllLabels: true,
+    		labelTextStyles: {color:'#000000'},
 
     		click: function(event, data) {
 			    $('#clicked-state').text('You clicked: '+data.name);

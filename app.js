@@ -58,45 +58,63 @@ app.use(function(err, req, res, next) {
 
 /**********************CUSTOM CODE*********************************/
 
+//The server starts listening on port 3000
 var server = app.listen(3000,function(){
     var port=server.address().port;
     console.log('App listening at port %s',port);
 });
-
+//bind socket to the server
 var sio=require('socket.io').listen(server);
 
+//utilizing a custom plugin we wrote for functions related to pulling, normalizing and returning weather data
 var WeatherFunctions=require('openweathermap-plugin');
-
+//create an object of the same
 var WeatherModule=new WeatherFunctions();
 
+//creates a map of state to their capital.
+/*We send a query based on the captital, but abstract that away since it is easier to work with
+**the state names for a few reasons. An important one is that it makes it easier to update the client-side maps
+*/
 WeatherModule.createStateDictionary();
+
+//This function is called when we feel there is a need to retrain the bayesian model with more recent data
+/*We are using historical weather from an entire year currently*/
 //WeatherModule.getHistoricDataForState();
-//WeatherModule.getTestData();
-//console.log("Finished creatng files");
 
+//Creates an object of currentWeatherUpdates which contains custom methods to parse incoming data and send out updates to clients
 var currentWeatherUpdates=require('./lib/currentWeatherUpdates.js');
-
 var MapUpdater=new currentWeatherUpdates();
 
-var fs=require('fs');
-
+//Creates an object of BayesianNets which contains custom methods to create, update and estimate probabilities
 var BayesianNets=require('./lib/BayesianNets.js');
-
 var BayesianNetObjectRain=new BayesianNets();
-
+//Generates 50 bayesian classifiers-one for each state. 
+/*****THIS IS IMPORTANT- A single classifier was highly inaccurate***/
 BayesianNetObjectRain.generateAllNets(MapUpdater.returnAbbrsList());
-
 var bayesNetsForRain=BayesianNetObjectRain.getAllNets();
 
+/*function that calls the sendUpdate function in MapUpdater:
+    The sendUpdate function:
+    1. polls the API for data about the state's weather- this can be slow at certain times of the day
+    2. Creates an object and sends it to all connected clients to update their maps
+*/
 function currentUpdateFunction(){
-
-       console.log('POLLING NOW')
+       //console.log('POLLING NOW')
        var currentStateWeather=MapUpdater.sendUpdate(sio,WeatherModule,MapUpdater);
        return currentStateWeather;
 };
 
+/*function that handles the forecasting functionality:
+    The todayRainForecastUpdate function:
+    1. Uses the current weather of a city (state capital), uses it as input to a Bayes classifier and gets the classification
+    2. The Bayes classifier will predict the probability of precipitation of any kind and the probability of no precipitation
+    3. Once we have our own prediction, we poll the weather API for their forecast with respect to precipitation
+    4. We then calculate the number of correctly classified (This assumes the Weather API forecast is accurate) areas,
+        and use it to calculate accuracy.
+
+*/
 function todayRainForecastUpdate(currentStateWeather,abbrList){
-      console.log('Updating todays rain forecast');
+      //console.log('Updating todays rain forecast');
 
       var selfPredictRainCount=0;
       var selfPredictNoRainCount=0;
@@ -110,15 +128,15 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
             var wind=WeatherModule.normalizeWind(state.wind);
             var temp=WeatherModule.normalizeTemperature(state.temp);
             var stateName=state.state;
-            //console.log('State name:'+stateName);
-            //console.log(bayesNetsForRain);
+            
+            // 1. Uses the current weather of a city (state capital), uses it as input to a Bayes classifier and gets the classification
             var lookupObject=BayesianNetObjectRain.createObject(temp,humidity,wind);
             var scoreObject=bayesNetsForRain[stateName].score(lookupObject);
-
+            //2. The Bayes classifier will predict the probability of precipitation of any kind and the probability of no precipitation
             var probRain=parseFloat(scoreObject['1']);
             var probNoRain=parseFloat(scoreObject['0']);
             var finalSelfRainPrediction=false;
-           // console.log('********PROB OF RAIN:'+probRain);
+          
             if(probRain>0.5){
                 finalSelfRainPrediction=true;
                 selfPredictRainCount++;
@@ -140,11 +158,15 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
 
 
             /****************To get actual Forecast**********************/
+            
+           
             var actualForecast=null;
             while(actualForecast==null){
+                //3. we poll the weather API for their forecast with respect to precipitation
                 actualForecast=WeatherModule.getCurrentRainForecast(stateName);
             }
-
+             /*4. We then calculate the number of correctly classified (This assumes the Weather API forecast is accurate) areas,
+                and use it to calculate accuracy.*/
             if(actualForecast==true){
                 actualPredictRainCount++;
                 if(finalSelfRainPrediction==true){
@@ -160,14 +182,15 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
 
             rainUpdateObj={state:abbrList[stateName],rain:actualForecast};
             sio.sockets.emit('updateTodayActualRainForecast',rainUpdateObj);
-            //console.log('Score for:'+stateName);
-            //console.log(scoreObject);
+            
         });
-    console.log('Accuracy:'+(correctCount)/(50))
-
+    var acc=(correctCount)/(50);
+    //console.log('Accuracy:'+acc)
+    sio.sockets.emit('accuracyUpdate',{accuracy:acc});
 
 }
 
+//calls the functions to poll current weather conditions and well as the function for precipitation prediction
 function sendAllUpdate(){
     var currentStateWeather=currentUpdateFunction();
     todayRainForecastUpdate(currentStateWeather,MapUpdater.returnAbbrsList());
@@ -175,7 +198,7 @@ function sendAllUpdate(){
 
 
 var flag=true;
-
+//Only start polling after the first client connects- API upper Caps on number of requests!!
 sio.on('connection',function(socket){
     console.log('New Connectrion');
     if(flag){
@@ -184,9 +207,5 @@ sio.on('connection',function(socket){
         miInterval=setInterval(sendAllUpdate,60000);
     }
 });
-
-
-
-
 
 module.exports = app;

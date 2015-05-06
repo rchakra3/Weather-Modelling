@@ -55,6 +55,11 @@
   // Default options
   var defaults = {
     // The styles for the state
+    'useAllLabels' : false,
+    'useFullStateNames' : false,
+    'showDataValues' : false,
+    'dataValues' : [],
+
     'stateStyles': {
       fill: "#333",
       stroke: "#666",
@@ -379,7 +384,93 @@
         this.labelHitAreas[state].node.dataState = state;
       }
 
+      var otherStates = {
+        HI: {x:295, y:560, full: "Hawaii"},
+        AK: {x:120, y:495, full: "Alaska"},
+        CA: {x:70,  y:280, full: "California"},
+        NV: {x:130, y:235, full: "Nevada"},
+        OR: {x:90,  y:125, full: "Oregon"},
+        WA: {x:115, y:50,  full: "Washington"},
+        ID: {x:185, y:145, full: "Idaho"},
+        MT: {x:270, y:85,  full: "Montana"},
+        WY: {x:295, y:185, full: "Wyoming"},
+        UT: {x:215, y:255, full: "Utah"},
+        AZ: {x:195, y:365, full: "Arizona"},
+        CO: {x:310, y:270, full: "Colorado"},
+        NM: {x:295, y:370, full: "New Mexico"},
+        TX: {x:420, y:455, full: "Texas"},
+        OK: {x:455, y:360, full: "Oklahoma"},
+        KS: {x:440, y:290, full: "Kansas"},
+        NE: {x:420, y:225, full: "Nevada"},
+        SD: {x:410, y:160, full: "South Dakota"},
+        ND: {x:415, y:95,  full: "North Dakota"},
+        MN: {x:500, y:125, full: "Minnesota"},
+        IA: {x:520, y:215, full: "Iowa"},
+        WI: {x:578, y:160, full: "Wisconsin"},
+        IL: {x:593, y:255, full: "Illinois"},
+        MO: {x:540, y:294, full: "Missouri"},
+        AR: {x:540, y:375, full: "Arkansas"},
+        LA: {x:544, y:455, full: "Louisiana"},
+        MS: {x:596, y:420, full: "Mississippi"},
+        AL: {x:648, y:410, full: "Alabama"},
+        TN: {x:645, y:346, full: "Tennessee"},
+        KY: {x:680, y:304, full: "Kentuky"},
+        IN: {x:645, y:250, full: "Indiana"},
+        MI: {x:665, y:185, full: "Michigan"},
+        OH: {x:696, y:240, full: "Ohio"},
+        PA: {x:775, y:215, full: "Pennsylvania"},
+        NY: {x:810, y:160, full: "New York"},
+        ME: {x:895, y:85,  full: "Maine"},
+        WV: {x:735, y:278, full: "W Virginia"},
+        VA: {x:785, y:285, full: "Virginia"},
+        NC: {x:778, y:334, full: "North Carolina"},
+        SC: {x:758, y:376, full: "South Carolina"},
+        GA: {x:710, y:410, full: "Georgia"},
+        FL: {x:763, y:508, full: "Florida"},
 
+        VT: {x:845, y:120, full: ""},
+        NH: {x:867, y:130, full: ""},
+        MA: {x:865, y:154, full: ""},
+        CT: {x:859, y:171, full: ""},
+        RI: {x:886, y:166, full: ""},
+        NJ: {x:840, y:215, full: ""},
+        DE: {x:830, y:245, full: ""},
+        MD: {x:800, y:235, full: ""},
+        DC: {x:805, y:255, full: ""},
+
+      };
+      if(this.options.useAllLabels || this.options.showDataValues){
+        var textAttr = this.options.labelTextStyles;
+        for(var state in otherStates) {
+          // attributes for styling the text
+          stateAttr = {};
+          if(this.options.stateSpecificLabelTextStyles[state]) {
+            $.extend(stateAttr, textAttr, this.options.stateSpecificLabelTextStyles[state]);
+          } else {
+            $.extend(stateAttr, textAttr);
+          }
+          // adjust font-size
+          if(stateAttr['font-size']) {
+            stateAttr['font-size'] = (parseInt(stateAttr['font-size'])/this.scale) + 'px';
+          }
+
+          var text = this.options.useFullStateNames ? otherStates[state].full : state;
+          if(this.options.showDataValues && this.options.useAllLabels){
+            this.labelTexts[state] = R.text( otherStates[state].x, otherStates[state].y - 5, text).attr( stateAttr );
+            this.labelTexts[state] = R.text( otherStates[state].x, otherStates[state].y + 5, this.options.dataValues[state]).attr( stateAttr );
+          }else{
+            text = this.options.showDataValues ? this.options.dataValues[state] : text;
+            this.labelTexts[state] = R.text( otherStates[state].x, otherStates[state].y, text).attr( stateAttr );
+          }
+          this.labelHitAreas[state] = R.rect(otherStates[state].x-this.options.labelWidth/this.scale/2, otherStates[state].y-this.options.labelHeight/this.scale/2, this.options.labelWidth/this.scale, this.options.labelHeight/this.scale, this.options.labelRadius/this.scale).attr({
+            fill: "#000",
+            "stroke-width": 0,
+            "opacity" : 0.0,
+            'cursor': 'pointer'
+          });
+          this.labelHitAreas[state].node.dataState = state;
+        }
+      }
 
       // Bind events
       for(var state in this.labelHitAreas) {
