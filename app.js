@@ -110,7 +110,7 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
             var wind=WeatherModule.normalizeWind(state.wind);
             var temp=WeatherModule.normalizeTemperature(state.temp);
             var stateName=state.state;
-            console.log('State name:'+stateName);
+            //console.log('State name:'+stateName);
             //console.log(bayesNetsForRain);
             var lookupObject=BayesianNetObjectRain.createObject(temp,humidity,wind);
             var scoreObject=bayesNetsForRain[stateName].score(lookupObject);
@@ -159,8 +159,8 @@ function todayRainForecastUpdate(currentStateWeather,abbrList){
 
             rainUpdateObj={state:abbrList[stateName],rain:actualForecast};
             sio.sockets.emit('updateTodayActualRainForecast',rainUpdateObj);
-            console.log('Score for:'+stateName);
-            console.log(scoreObject);
+            //console.log('Score for:'+stateName);
+            //console.log(scoreObject);
         });
     console.log('Accuracy:'+(correctCount)/(50))
 
