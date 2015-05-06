@@ -92,3 +92,9 @@ US Maps: https://newsignature.github.io/us-map/
 Weather API: www.wunderground.com/
 Wind Ranges: http://openweathermap.org/
 
+CONTRIBUTORS:
+----------
+1. Vinay Suryadevara
+2. Rohan Chakravarthy
+3. Sagar Mucchal
+4. Shanil Puri
