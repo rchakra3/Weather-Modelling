@@ -180,7 +180,8 @@ function updateHistory(){
     var historyArray=fs.readFileSync(oldFile).toString().split("\n");
     var lastHistDate=(historyArray[historyArray.length - 1]).split(",")[0].split("-");
     var dayDate, dataString, oldFile, newFile;
-    if(curDate[0] > lastHistDate[0] || curDate[1] > lastHistDate[1] || curDate[2] > lastHistDate[2]){
+    if(ParseInt(curDate[0]) > ParseInt(lastHistDate[0]) || ParseInt(curDate[1]) > ParseInt(lastHistDate[1]) || 
+        ParseInt(curDate[2]) > ParseInt(lastHistDate[2])){
         var linkData = "/blah";
         var i=0;
         for(var state in WeatherFunctions.stateMap){
