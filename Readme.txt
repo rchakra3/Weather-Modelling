@@ -83,7 +83,8 @@ FILES CREATED AND CHANGES MADE
 
 REFERENCES
 ----------
-
 Node.js - https://nodejs.org/
-
+US Maps: https://newsignature.github.io/us-map/
+Weather API: www.wunderground.com/
+Wind Ranges: http://openweathermap.org/
 
