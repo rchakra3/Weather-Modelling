@@ -209,13 +209,13 @@ function sendAllUpdate(){
 
 var flag=true;
 //Only start polling after the first client connects- API upper Caps on number of requests!!
-/*sio.on('connection',function(socket){
+sio.on('connection',function(socket){
     console.log('New Connectrion');
     if(flag){
         flag=false;
         sendAllUpdate();
         miInterval=setInterval(sendAllUpdate,60000);
     }
-});*/
+});
 
 module.exports = app;
