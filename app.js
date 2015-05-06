@@ -176,14 +176,14 @@ function sendAllUpdate(){
 
 var flag=true;
 
-sio.on('connection',function(socket){
+/*sio.on('connection',function(socket){
     console.log('New Connectrion');
     if(flag){
         flag=false;
         sendAllUpdate();
         miInterval=setInterval(sendAllUpdate,60000);
     }
-});
+});*/
 
 
 
