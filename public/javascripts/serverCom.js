@@ -3,6 +3,8 @@ var socket=io();
 //receive an update to the map showing the current weather
 socket.on('updateCurrent',function(data){
 	$('#map').usmap('trigger', ''+data.state,'currentMapUpdate',data)
+	$('#InitializationHeader1').hide();
+	$('#InitializationHeader2').hide();
 });
 
 //receive an update to the map showing our prediction for precipitation today
